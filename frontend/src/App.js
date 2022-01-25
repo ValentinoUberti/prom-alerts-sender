@@ -7,6 +7,9 @@ import Toolbar from '@material-ui/core/Toolbar'
 //import NavBar from "./navbar.js"
 import SendAlert from "./components/SendAlert"
 import AlertList from "./components/AlertList"
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const client = new W3CWebSocket('ws://127.0.0.1:8080/ws');
 
@@ -14,12 +17,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.sendAlert = this.sendAlert.bind(this);
-   
-    
+
+
   }
 
 
-  
+
 
   componentDidMount() {
     client.onopen = () => {
@@ -46,14 +49,19 @@ class App extends Component {
             <TypoGraphy color="inherit">
               ISP Alert sender
             </TypoGraphy>
-          
+
           </Toolbar>
         </AppBar>
-        
-        <SendAlert websocket={client} />
-        <AlertList/>
-        
-        
+
+
+
+        <Container maxWidth="sm">
+        <CssBaseline />
+          <SendAlert websocket={client} />
+          <AlertList />
+        </Container>
+
+
 
 
       </div>

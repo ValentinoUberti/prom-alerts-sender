@@ -12,17 +12,19 @@ class AlertList extends React.Component {
 
   renderedListItems() {
     //console.log( this.props.mystate.alertStore.alertsList);
-    
-    return this.props.mystate.alertStore.alertsList.map((alert,i) => <li key={alert.id}> {alert.alertName} - {alert.alertPriority}</li>);
+
+    return this.props.mystate.alertStore.alertsList.map(
+      (alert) => <li key={alert.id}> {alert.alertName} - {alert.alertPriority}</li>
+    );
   }
 
   render() {
     console.log(this.props);
     return (
-    <div>
-      <ul className="todo-list">{this.renderedListItems()}</ul>
+      <div>
+        <ul className="todo-list">{this.renderedListItems()}</ul>
 
-    </div>
+      </div>
     )
   }
 

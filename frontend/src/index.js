@@ -9,9 +9,9 @@ import { Provider } from 'react-redux'
 
 console.log('Initial state: ', store.getState())
 
-store.dispatch({ type: 'alert/firing', payload: JSON.parse('{ "alertName": "a", "alertPriority": "b", "alertState": "c", "resolved": true}') })
+//store.dispatch({ type: 'alert/firing', payload: JSON.parse('{ "alertName": "a", "alertPriority": "b", "alertState": "c", "resolved": true}') })
 
-console.log('Second state: ', store.getState())
+//console.log('Second state: ', store.getState())
 
 ReactDOM.render(
   <React.StrictMode>

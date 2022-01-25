@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import store from '../../store'
 
 class SendAlert extends Component {
@@ -20,26 +20,30 @@ class SendAlert extends Component {
 
 
     sendAlert() {
-        this.state.client.send(this.state.value);
-        var state = {...this.state}
-        state.alertDetails.alertName="";
+        this.state.client.send(this.state.alertDetails.alertName);
+
+        store.dispatch({ type: 'alert/firing', payload: JSON.parse('{ "alertName": "' + this.state.alertDetails.alertName + '", "alertPriority": "warning", "alertState": "firing", "resolved": false}') })
+        var state = { ...this.state }
+        state.alertDetails.alertName = "";
         this.setState({ state });
-        store.dispatch({ type: 'alert/firing', payload: JSON.parse('{ "alertName": "a", "alertPriority": "b", "alertState": "c", "resolved": true}') })
-      }
+    }
 
     handleChangeAlertName(event) {
-        var state = {...this.state}
-        state.alertDetails.alertName=event.target.value;
+        var state = { ...this.state }
+        state.alertDetails.alertName = event.target.value;
         this.setState({ state });
     }
 
     render() {
         return (
-            <div>
 
-                <input value={this.state.alertDetails.alertName} onChange={this.handleChangeAlertName} />
-                <Button onClick={this.sendAlert}>Send alert</Button>
-            </div>
+          
+                <div>
+                    <TextField id="outlined-basic"  value={this.state.alertDetails.alertName} onChange={this.handleChangeAlertName} />
+                    <Button onClick={this.sendAlert}>Fire alert</Button>
+                </div>
+          
+
         )
     }
 
