@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import SendResolved from "../SendResolved";
 
 class AlertList extends React.Component {
 
@@ -8,18 +9,22 @@ class AlertList extends React.Component {
 
     super(props);
     this.renderedListItems = this.renderedListItems.bind(this);
+    this.state = {
+      client: props.websocket
+
+    }
   }
 
   renderedListItems() {
     //console.log( this.props.mystate.alertStore.alertsList);
 
     return this.props.mystate.alertStore.alertsList.map(
-      (alert) => <li key={alert.id}> {alert.alertName} - {alert.alertPriority}</li>
+      (alert) => <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - <SendResolved alertId={alert.id} websocket={this.state.client}/></li>
     );
   }
 
   render() {
-    console.log(this.props);
+
     return (
       <div>
         <ul className="todo-list">{this.renderedListItems()}</ul>

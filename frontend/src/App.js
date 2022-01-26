@@ -16,9 +16,7 @@ const client = new W3CWebSocket('ws://127.0.0.1:8080/ws');
 class App extends Component {
   constructor(props) {
     super(props);
-    this.sendAlert = this.sendAlert.bind(this);
-
-
+   
   }
 
 
@@ -28,16 +26,15 @@ class App extends Component {
     client.onopen = () => {
       console.log('WebSocket Client Connected');
     };
+
+
     client.onmessage = (message) => {
       console.log(message);
     };
   }
 
 
-  sendAlert() {
-    client.send(this.state.value);
-    this.setState({ value: '' });
-  }
+  
 
 
   render() {
@@ -58,7 +55,7 @@ class App extends Component {
         <Container maxWidth="sm">
         <CssBaseline />
           <SendAlert websocket={client} />
-          <AlertList />
+          <AlertList websocket={client}/>
         </Container>
 
 

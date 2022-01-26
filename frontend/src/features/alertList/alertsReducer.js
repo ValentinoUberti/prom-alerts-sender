@@ -29,29 +29,22 @@ export default function alertsReducer(state = initialState, action) {
                     }
                 ]
             }
-        }
+        };
+
         case 'alert/resolved': {
             return {
-                // Again copy the entire state object
-                ...state,
-                // This time, we need to make a copy of the old todos array
-                alertsList: state.alertsList.map(alert => {
-                    // If this isn't the todo item we're looking for, leave it alone
-                    if (alert.id !== action.payload.id) {
-                        return alert
-                    }
 
-                    // We've found the alert that has to change. Return a copy:
-                    return {
-                        ...alert,
-                        // Flip the completed flag
-                        resolved: false
-                    }
-                })
+
+
+                alertsList: [
+                    ...state.alertsList.filter(alert => alert.id !== action.payload.alertId)
+                ]
             }
 
 
-        }
+        };
+
+
         // Do something here based on the different types of actions
         default:
             // If this reducer doesn't recognize the action type, or doesn't
