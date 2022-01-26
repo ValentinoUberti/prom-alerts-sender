@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, TextField } from '@material-ui/core';
 import store from '../../store'
+import createAlertJson from "../../alertHelper.js"
 
 class SendResolved extends Component {
 
@@ -8,7 +9,8 @@ class SendResolved extends Component {
         super(props);
         this.state = {
             client: props.websocket,
-            alertId: props.alertId
+            alertId: props.alertId,
+            alertName: props.alertName
 
         }
 
@@ -17,9 +19,17 @@ class SendResolved extends Component {
     }
 
 
-    
+
     sendResolved() {
         //this.state.client.send(this.state.alertDetails.alertName);
+
+
+        var msg = createAlertJson("resolved", this.state.alertName,
+            "warning","summary","message","description");
+
+        console.log(msg)
+        this.state.client.send(msg);
+
         console.log("sendResolved called")
         console.log('Store: ', store.getState())
         store.dispatch({ type: 'alert/resolved', payload: JSON.parse('{ "alertId": ' + this.state.alertId + '}') })
@@ -36,9 +46,9 @@ class SendResolved extends Component {
         return (
 
 
-           
-                <Button onClick={this.sendResolved}>Resolve alert</Button>
-           
+
+            <Button onClick={this.sendResolved}>Resolve alert</Button>
+
 
 
         )

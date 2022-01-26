@@ -19,7 +19,7 @@ class AlertList extends React.Component {
     //console.log( this.props.mystate.alertStore.alertsList);
 
     return this.props.mystate.alertStore.alertsList.map(
-      (alert) => <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - <SendResolved alertId={alert.id} websocket={this.state.client}/></li>
+      (alert) => <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - <SendResolved alertName={alert.alertName} alertId={alert.id} websocket={this.state.client}/></li>
     );
   }
 

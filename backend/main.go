@@ -14,7 +14,7 @@ import (
 
 type AlertingLabel struct {
 	Alertname string `json:"alertname"`
-	Service   string `json:"service"`
+	Service   string `json:"service,omitempty"`
 	Severity  string `json:"severity"`
 	//Instance    string `json:"instance"`
 	//Prometheus  string `json:"prometheus"`
@@ -28,8 +28,8 @@ type AlertingLabel struct {
 
 type AlertingAnnotations struct {
 	Summary     string `json:"summary"`
-	Message     string `json:"message"`
-	Description string `json:"description"`
+	Message     string `json:"message,omitempty"`
+	Description string `json:"description,omitempty"`
 }
 
 type AlertingRule struct {
@@ -37,8 +37,8 @@ type AlertingRule struct {
 	Labels       AlertingLabel       `json:"labels"`
 	Annotations  AlertingAnnotations `json:"annotations"`
 	GeneratorURL string              `json:"generatorURL"`
-	StartsAt     time.Time           `json:"startsAt,omitempty"`
-	EndsAt       time.Time           `json:"endsAt,omitempty"`
+	//StartsAt     time.Time           `json:"startsAt,omitempty"`
+	EndsAt time.Time `json:"endsAt,omitempty"`
 }
 
 func sendAlert(alert AlertingRule) {
@@ -97,32 +97,32 @@ var upgrader = websocket.Upgrader{
 // endpoint
 func reader(conn *websocket.Conn) {
 	for {
-		// read in a message
-		messageType, p, err := conn.ReadMessage()
-		if err != nil {
-			log.Println(err)
-			return
-		}
+
 		// print out that message for clarity
-
-		var msg = string(p)
-
-		fmt.Println(msg)
 
 		alert := AlertingRule{}
 
-		now := time.Now()
-		count := 130
-		startAt := now.Add(time.Duration(-count) * time.Minute)
-		endAt := now.Add(time.Duration(count) * time.Minute)
+		err := conn.ReadJSON(&alert)
+		if err != nil {
+			fmt.Println("Error reading json.", err)
+		}
 
-		alert.Status = "firing"
-		alert.Labels.Alertname = msg
-		alert.Labels.Service = "alertmanager-main"
-		alert.Labels.Severity = "warning"
-		alert.Annotations.Summary = "My special summary"
-		alert.Annotations.Description = "My special description"
-		alert.Annotations.Message = "My special message"
+		fmt.Printf("Got message: %#v\n", alert)
+
+		/*
+			now := time.Now()
+			count := 130
+			startAt := now.Add(time.Duration(-count) * time.Minute)
+			endAt := now.Add(time.Duration(count) * time.Minute)
+		*/
+
+		//alert.Status = "firing"
+		//alert.Labels.Alertname = msg
+		//alert.Labels.Service = "alertmanager-main"
+		//alert.Labels.Severity = "warning"
+		//alert.Annotations.Summary = "My special summary"
+		//alert.Annotations.Description = "My special description"
+		//alert.Annotations.Message = "My special message"
 		//alert.Labels.Instance = "my-test-service.ocp2.lab.seeweb"
 		//alert.Labels.Prometheus = "openshift-monitoring/k8s"
 		//alert.Labels.Namespace = "openshift-monitoring"
@@ -134,15 +134,20 @@ func reader(conn *websocket.Conn) {
 		//alert.Labels.Job = "alertmanager-main"
 		//alert.Labels.Pod = "alertmanager-main-0"
 
-		alert.StartsAt = startAt
-		alert.EndsAt = endAt
+		//alert.StartsAt = startAt
+		//alert.EndsAt = endAt
+		alert.GeneratorURL = "https://bjlovers.bj/" + alert.Labels.Alertname
+		alert.Labels.Service = "Service - " + alert.Labels.Alertname
 
+		if alert.Status == "resolved" {
+			alert.EndsAt = time.Now()
+		}
 		sendAlert(alert)
 
-		if err := conn.WriteMessage(messageType, p); err != nil {
-			log.Println(err)
-			return
-		}
+		/*
+			if err = conn.WriteJSON(alert); err != nil {
+				fmt.Println(err)
+			}*/
 
 	}
 }

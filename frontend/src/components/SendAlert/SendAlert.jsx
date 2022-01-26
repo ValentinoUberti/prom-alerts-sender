@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Button, TextField } from '@material-ui/core';
 import store from '../../store'
+import createAlertJson from "../../alertHelper.js"
+
+//createAlertJosn(status,alertname,severity,summary,message,description)
+
 
 class SendAlert extends Component {
 
@@ -20,7 +24,12 @@ class SendAlert extends Component {
 
 
     sendAlert() {
-        this.state.client.send(this.state.alertDetails.alertName);
+
+        var msg = createAlertJson("firing",this.state.alertDetails.alertName,
+        "warning","summary","message","description");
+
+        console.log(msg)
+        this.state.client.send(msg);
 
         store.dispatch({ type: 'alert/firing', payload: JSON.parse('{ "alertName": "' + this.state.alertDetails.alertName + '", "alertPriority": "warning", "alertState": "firing", "resolved": false}') })
         var state = { ...this.state }
