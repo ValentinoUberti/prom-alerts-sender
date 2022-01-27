@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import SendResolved from "../SendResolved";
+import Divider from '@mui/material/Divider';
 
 class AlertList extends React.Component {
 
@@ -27,6 +28,7 @@ class AlertList extends React.Component {
 
     return (
       <div>
+         <Divider light />
         <ul className="todo-list">{this.renderedListItems()}</ul>
 
       </div>

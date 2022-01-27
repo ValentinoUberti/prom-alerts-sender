@@ -52,11 +52,11 @@ class App extends Component {
 
 
 
-        <Container maxWidth="sm">
-        <CssBaseline />
+       
+       
           <SendAlert websocket={client} />
           <AlertList websocket={client}/>
-        </Container>
+       
 
 
 

@@ -37,8 +37,8 @@ type AlertingRule struct {
 	Labels       AlertingLabel       `json:"labels"`
 	Annotations  AlertingAnnotations `json:"annotations"`
 	GeneratorURL string              `json:"generatorURL"`
-	//StartsAt     time.Time           `json:"startsAt,omitempty"`
-	EndsAt time.Time `json:"endsAt,omitempty"`
+	StartsAt     time.Time           `json:"startsAt,omitempty"`
+	EndsAt       time.Time           `json:"endsAt,omitempty"`
 }
 
 func sendAlert(alert AlertingRule) {
@@ -110,11 +110,8 @@ func reader(conn *websocket.Conn) {
 		fmt.Printf("Got message: %#v\n", alert)
 
 		/*
-			now := time.Now()
-			count := 130
-			startAt := now.Add(time.Duration(-count) * time.Minute)
-			endAt := now.Add(time.Duration(count) * time.Minute)
-		*/
+
+		 */
 
 		//alert.Status = "firing"
 		//alert.Labels.Alertname = msg
@@ -141,6 +138,11 @@ func reader(conn *websocket.Conn) {
 
 		if alert.Status == "resolved" {
 			alert.EndsAt = time.Now()
+		} else {
+			now := time.Now()
+			count := 130
+			alert.StartsAt = now.Add(time.Duration(-count) * time.Minute)
+			alert.EndsAt = now.Add(time.Duration(count) * time.Minute)
 		}
 		sendAlert(alert)
 
