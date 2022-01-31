@@ -5,7 +5,6 @@ import Divider from '@mui/material/Divider';
 
 class AlertList extends React.Component {
 
-
   constructor(props) {
 
     super(props);
@@ -17,11 +16,17 @@ class AlertList extends React.Component {
   }
 
   renderedListItems() {
-    //console.log( this.props.mystate.alertStore.alertsList);
+    console.log( this.props.mystate.alertStore.alertsList);
 
     return this.props.mystate.alertStore.alertsList.map(
-      (alert) => <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - <SendResolved alertName={alert.alertName} alertId={alert.id} websocket={this.state.client}/></li>
-    );
+      (alert) => 
+      (alert.messageState == "ALERT_RECEIVED_IN_WS_SERVER") ?
+      <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - Message received from WS SERVER</li>:
+      (alert.messageState == "ALERT_SENT_TO_ICINGA") ?
+      <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - Alert sent to Icinga</li>:
+      (alert.messageState == "ALERT_FIRING_ON_ICINGA") ?
+      <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - <SendResolved alertName={alert.alertName} alertId={alert.id} websocket={this.state.client}/></li>:null
+    )
   }
 
   render() {

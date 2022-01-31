@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, TextField } from '@material-ui/core';
 import store from '../../store'
-import createAlertJson from "../../alertHelper.js"
+import createJSONMsg from "../../alertHelper.js"
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -27,6 +27,7 @@ class SendAlert extends Component {
         this.handleChangeAlertPriority = this.handleChangeAlertPriority.bind(this);
         this.sendAlert = this.sendAlert.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.createAlertJson = this.createAlertJson.bind(this);
 
     }
 
@@ -34,20 +35,26 @@ class SendAlert extends Component {
     handleChange(evt) {
         const value = evt.target.value;
         this.setState({
-          ...this.state,
-         
-        });
-      }
+            ...this.state,
 
+        });
+    }
+
+
+    createAlertJson(status, alertname, severity, summary, message, description) {
+        return createJSONMsg("FIRE_ALERT", false, status, alertname, severity, summary, message, description)
+    }
+
+    
     sendAlert() {
 
-        var msg = createAlertJson("firing", this.state.alertDetails.alertName,
+        var msg = this.createAlertJson("firing", this.state.alertDetails.alertName,
             this.state.alertDetails.alertPriority, "summary", "message", "description");
 
         console.log(msg)
         this.state.client.send(msg);
 
-        store.dispatch({ type: 'alert/firing', payload: JSON.parse('{ "alertName": "' + this.state.alertDetails.alertName + '", "alertPriority": "' + this.state.alertDetails.alertPriority + '", "alertState": "firing", "resolved": false}') })
+        store.dispatch({ type: 'alert/fire_alert', payload: JSON.parse('{"alertName": "' + this.state.alertDetails.alertName + '", "alertPriority": "' + this.state.alertDetails.alertPriority + '", "alertState": "firing", "resolved": false}') })
         var state = { ...this.state }
         state.alertDetails.alertName = "";
         this.setState({ state });
@@ -79,10 +86,10 @@ class SendAlert extends Component {
 
 
 
-                    <TextField variant="outlined" label="Alert name"  value={this.state.alertDetails.alertName} onChange={this.handleChangeAlertName} />
+                    <TextField variant="outlined" label="Alert name" value={this.state.alertDetails.alertName} onChange={this.handleChangeAlertName} />
 
                     <TextField
-                       
+
                         id="severity"
                         value={this.state.alertDetails.alertPriority}
                         label="Severity"
@@ -102,7 +109,7 @@ class SendAlert extends Component {
                         cols={5}
                     />
 
-                     <textarea
+                    <textarea
                         value={this.state.textAreaValue}
                         onChange={this.handleChange}
                         rows={5}

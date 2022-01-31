@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"sync"
 	"time"
 
 	"github.com/gorilla/websocket"
@@ -40,6 +41,52 @@ type AlertingRule struct {
 	StartsAt     time.Time           `json:"startsAt,omitempty"`
 	EndsAt       time.Time           `json:"endsAt,omitempty"`
 }
+
+type WsClientConnection struct {
+	Socket *websocket.Conn // shared websocket connection
+	mu     sync.Mutex
+}
+
+func (p *WsClientConnection) send(v interface{}) error {
+
+	p.mu.Lock()
+	b, err := json.Marshal(v)
+	p.Socket.WriteMessage(websocket.TextMessage, b)
+	//err := p.Socket.WriteJSON(v)
+	log.Println(err)
+	p.mu.Unlock()
+	return err
+}
+
+func (p *WsClientConnection) read() (msgType int, msg []byte, err error) {
+	msgType, msg, err = p.Socket.ReadMessage()
+	return
+}
+
+func (p *WsClientConnection) close() {
+	_ = p.Socket.Close()
+	return
+}
+
+type MsgWsType struct {
+	Command string       `json:"command"`
+	Result  bool         `json:"result"`
+	Data    AlertingRule `json:"data"`
+}
+
+/*
+func (m *MsgWsType) PrepareMessage(Command string, Result bool, Fase string, data []string) {
+
+	/* Input command
+	       FIRE_ALERT
+		   RESOLVE_ALERT
+
+
+	m.Command = Command
+	m.Result = Result
+	m.Data = data
+
+}*/
 
 func sendAlert(alert AlertingRule) {
 
@@ -91,6 +138,10 @@ var upgrader = websocket.Upgrader{
 	// For now, we'll do no checking and just allow any connection
 	CheckOrigin: func(r *http.Request) bool { return true },
 }
+
+//Channel for sending message through websocket connection
+//Messages are sent to all the websocket clients
+var msgWsChannel = make(chan MsgWsType)
 
 // define a reader which will listen for
 // new messages being sent to our WebSocket
@@ -157,16 +208,93 @@ func reader(conn *websocket.Conn) {
 // define our WebSocket endpoint
 func serveWs(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)
-
+	var wsClient = new(WsClientConnection)
+	var err error
 	// upgrade this connection to a WebSocket
 	// connection
-	ws, err := upgrader.Upgrade(w, r, nil)
+	wsClient.Socket, err = upgrader.Upgrade(w, r, nil)
+
 	if err != nil {
 		log.Println(err)
 	}
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
-	reader(ws)
+
+	go func(socket *WsClientConnection) {
+		for {
+
+			_, msg, err := socket.read()
+			if err != nil {
+				log.Println(err)
+				return
+
+			} else {
+				var jsonMessage MsgWsType
+				//fmt.Println("here")
+				err = json.Unmarshal(msg, &jsonMessage)
+				if err != nil {
+					log.Println(err)
+					return
+				}
+				/* Input command
+				       FIRE_ALERT
+					   RESOLVE_ALERT
+				*/
+				//fmt.Printf("%+v\n", jsonMessage)
+				switch jsonMessage.Command { //Comando ricevuto dal webclient
+
+				case "FIRE_ALERT":
+					log.Println("FIRE_ALERT")
+
+					//Send confirmation "ALERT_RECEIVED_IN_WS_SERVER"
+					confirmation := MsgWsType{}
+					confirmation.Command = "ALERT_RECEIVED_IN_WS_SERVER"
+					confirmation.Result = true
+					confirmation.Data = jsonMessage.Data
+					msgWsChannel <- confirmation
+
+					// Changing state test
+					go func() {
+						confirmation.Command = "ALERT_SENT_TO_ICINGA"
+						time.Sleep(10 * time.Second)
+						msgWsChannel <- confirmation
+					}()
+
+				case "RESOLVE_ALERT":
+					log.Println("RESOLVE_ALERT")
+
+				} // switch jsonMessage.Command
+
+			} // else
+		} // for
+
+	}(wsClient) // go fun Reader
+	//reader(ws)
+
+	go func(socket *WsClientConnection, mymsgChannel chan MsgWsType) {
+
+		var msg MsgWsType
+
+		for {
+			msg = <-mymsgChannel
+			//log.Println(msg.Command)
+			//log.Println("Received message from channel")
+			//log.Println(msg)
+			//b, err := json.Marshal()
+			//socket.mu.Unlock()
+			err = socket.send(msg)
+			if err != nil {
+				//socket.close()
+				fmt.Println("Errore in send ", err)
+				//mymsgChannel <- msg
+				//break
+			}
+			//log.Println(string(b))
+			log.Println("Channel message sent to websocket client")
+
+		}
+	}(wsClient, msgWsChannel)
+
 }
 
 func setupRoutes() {
