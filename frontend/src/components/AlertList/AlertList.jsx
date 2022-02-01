@@ -22,8 +22,10 @@ class AlertList extends React.Component {
       (alert) => 
       (alert.messageState == "ALERT_RECEIVED_IN_WS_SERVER") ?
       <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - Message received from WS SERVER</li>:
-      (alert.messageState == "ALERT_SENT_TO_ICINGA") ?
-      <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - Alert sent to Icinga</li>:
+      (alert.messageState == "ALERT_SENT_TO_ALERTMANAGER") ?
+      <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - Alert sent to Alert Manager</li>:
+      (alert.messageState == "WAITING_FOR_ICINGA_CONFIRMATION") ?
+      <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - Waiting for Icinga confirmation</li>:
       (alert.messageState == "ALERT_FIRING_ON_ICINGA") ?
       <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - <SendResolved alertName={alert.alertName} alertId={alert.id} websocket={this.state.client}/></li>:null
     )

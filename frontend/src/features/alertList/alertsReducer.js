@@ -57,14 +57,32 @@ export default function alertsReducer(state = initialState, action) {
 
         // 3) Pod Server -> React 
         // 
-        // Alert sent  to Icinga
-        case 'alert/alert_sent_to_icinga': {
+        // Alert sent  to Alert Manager
+        case 'alert/ALERT_SENT_TO_ALERTMANAGER': {
             console.log(action.payload)
             const index = state.alertsList.findIndex(alert => alert.alertName === action.payload.labels.alertname);
             console.log(index);
            
             let tmpAlertList = [...state.alertsList]
-            tmpAlertList[index].messageState="ALERT_SENT_TO_ICINGA"
+            tmpAlertList[index].messageState="ALERT_SENT_TO_ALERTMANAGER"
+            return {
+                ...state,
+                alertsList: [
+                    ...tmpAlertList,
+                   
+                ]
+            }
+        };
+
+        //WAITING_FOR_ICINGA_CONFIRMATION
+
+        case 'alert/WAITING_FOR_ICINGA_CONFIRMATION': {
+            console.log(action.payload)
+            const index = state.alertsList.findIndex(alert => alert.alertName === action.payload.labels.alertname);
+            console.log(index);
+           
+            let tmpAlertList = [...state.alertsList]
+            tmpAlertList[index].messageState="WAITING_FOR_ICINGA_CONFIRMATION"
             return {
                 ...state,
                 alertsList: [

@@ -88,7 +88,7 @@ func (m *MsgWsType) PrepareMessage(Command string, Result bool, Fase string, dat
 
 }*/
 
-func sendAlert(alert AlertingRule) {
+func sendAlert(alert AlertingRule) (error, int) {
 
 	alertArray := []AlertingRule{}
 
@@ -115,7 +115,7 @@ func sendAlert(alert AlertingRule) {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		return nil, 0
 	}
 	defer resp.Body.Close()
 
@@ -123,6 +123,8 @@ func sendAlert(alert AlertingRule) {
 	fmt.Println("response Headers:", resp.Header)
 	body, _ := ioutil.ReadAll(resp.Body)
 	fmt.Println("response Body:", string(body))
+
+	return nil, resp.StatusCode
 
 }
 
@@ -146,6 +148,44 @@ var msgWsChannel = make(chan MsgWsType)
 // define a reader which will listen for
 // new messages being sent to our WebSocket
 // endpoint
+
+func prepareAndSendAlertToIcinga(alert AlertingRule) (error, int) {
+
+	//alert.Status = "firing"
+	//alert.Labels.Alertname = msg
+	//alert.Labels.Service = "alertmanager-main"
+	//alert.Labels.Severity = "warning"
+	//alert.Annotations.Summary = "My special summary"
+	//alert.Annotations.Description = "My special description"
+	//alert.Annotations.Message = "My special message"
+	//alert.Labels.Instance = "my-test-service.ocp2.lab.seeweb"
+	//alert.Labels.Prometheus = "openshift-monitoring/k8s"
+	//alert.Labels.Namespace = "openshift-monitoring"
+
+	//alert.Labels.Container = "alertmanager-proxy"
+	//alert.Labels.Endpoint = "end"
+	//alert.Labels.Instance = "10.131.0.23:9095"
+	//alert.Labels.Integration = "webhook"
+	//alert.Labels.Job = "alertmanager-main"
+	//alert.Labels.Pod = "alertmanager-main-0"
+
+	//alert.StartsAt = startAt
+	//alert.EndsAt = endAt
+	alert.GeneratorURL = "https://bjlovers.bj/" + alert.Labels.Alertname
+	alert.Labels.Service = "Service - " + alert.Labels.Alertname
+
+	if alert.Status == "resolved" {
+		alert.EndsAt = time.Now()
+	} else {
+		now := time.Now()
+		count := 130
+		alert.StartsAt = now.Add(time.Duration(-count) * time.Minute)
+		alert.EndsAt = now.Add(time.Duration(count) * time.Minute)
+	}
+	return sendAlert(alert)
+
+}
+
 func reader(conn *websocket.Conn) {
 	for {
 
@@ -255,9 +295,24 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 
 					// Changing state test
 					go func() {
-						confirmation.Command = "ALERT_SENT_TO_ICINGA"
-						time.Sleep(10 * time.Second)
-						msgWsChannel <- confirmation
+						confirmation.Command = "ALERT_SENT_TO_ALERTMANAGER"
+
+						err, status := prepareAndSendAlertToIcinga(jsonMessage.Data)
+						log.Println(status)
+						if (err == nil) && status == 200 {
+							msgWsChannel <- confirmation
+
+							// WAITING_FOR_ICINGA_CONFIRMATION
+							go func() {
+
+								time.Sleep(4 * time.Second)
+								confirmation.Command = "WAITING_FOR_ICINGA_CONFIRMATION"
+								msgWsChannel <- confirmation
+
+							}()
+						}
+						// TODO send error message to REACT
+
 					}()
 
 				case "RESOLVE_ALERT":

@@ -42,11 +42,16 @@ class App extends Component {
             store.dispatch({ type: 'alert/alert_received_in_ws_server', payload: event.data })
             break;
 
-          case 'ALERT_SENT_TO_ICINGA':
-              console.log("ALERT_SENT_TO_ICINGA")
-              store.dispatch({ type: 'alert/alert_sent_to_icinga', payload: event.data })
-              break;
+          case 'ALERT_SENT_TO_ALERTMANAGER':
+            console.log("ALERT_SENT_TO_ALERTMANAGER")
+            store.dispatch({ type: 'alert/ALERT_SENT_TO_ALERTMANAGER', payload: event.data })
+            break;
 
+          //WAITING_FOR_ICINGA_CONFIRMATION
+          case 'WAITING_FOR_ICINGA_CONFIRMATION':
+            console.log("WAITING_FOR_ICINGA_CONFIRMATION")
+            store.dispatch({ type: 'alert/WAITING_FOR_ICINGA_CONFIRMATION', payload: event.data })
+            break;
           default:
             console.log("MESSAGE NOT UNDERSTOOD")
 
