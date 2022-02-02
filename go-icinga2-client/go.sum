@@ -1,0 +1,12 @@
+github.com/Nexinto/go-icinga2-client v0.0.0-20211228082826-c12697cec885 h1:vbG19bOcFv/TVAhat02koDY1RlUBdRSdhzn9yB7zQSQ=
+github.com/Nexinto/go-icinga2-client v0.0.0-20211228082826-c12697cec885/go.mod h1:EZ+4NPTzY8llDpZ5qvrI4yVzOtVcEZq5MZ9ESmv2Kl0=
+github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/jmcvetta/randutil v0.0.0-20150817122601-2bb1b664bcff h1:6NvhExg4omUC9NfA+l4Oq3ibNNeJUdiAF3iBVB0PlDk=
+github.com/jmcvetta/randutil v0.0.0-20150817122601-2bb1b664bcff/go.mod h1:ddfPX8Z28YMjiqoaJhNBzWHapTHXejnB5cDCUWDwriw=
+github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
+github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
+gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
+gopkg.in/jmcvetta/napping.v3 v3.2.0 h1:NpSZLAL6VgiyhdqaOkxwVtHXOLrQJZ6fFOMQgp7G8PQ=
+gopkg.in/jmcvetta/napping.v3 v3.2.0/go.mod h1:0dPR4/IGM4+xGT+e48O2yJlg6qofrONCtEAWkurVlZQ=
+gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
