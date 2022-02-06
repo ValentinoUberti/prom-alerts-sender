@@ -27,9 +27,15 @@ class AlertList extends React.Component {
       (alert.messageState == "WAITING_FOR_ICINGA_CONFIRMATION") ?
       <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - Waiting for Icinga confirmation</li>:
       (alert.messageState == "ALERT_FIRING_ON_ICINGA") ?
-      <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - <SendResolved alertName={alert.alertName} alertId={alert.id} websocket={this.state.client}/></li>:null
+      <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - <SendResolved alertName={alert.alertName} alertPriority={alert.alertPriority} alertId={alert.id} websocket={this.state.client}/></li>:
+      (alert.messageState == "WAITING_FOR_ICINGA_RESOLVED_CONFIRMATION") ?
+      <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - WAITING_FOR_ICINGA_RESOLVED_CONFIRMATION </li>:
+      (alert.messageState == "ALERT_RESOLVED_IN_ICINGA") ?
+      <li key={alert.id}> {alert.alertName} - ({alert.alertPriority}) - ALERT_RESOLVED_IN_ICINGA </li>:null
     )
   }
+
+  //WAITING_FOR_ICINGA_RESOLVED_CONFIRMATION
 
   render() {
 

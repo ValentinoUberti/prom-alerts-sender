@@ -9,9 +9,42 @@ function nextTodoId(alertsList) {
     return maxId + 1
 }
 
+function checkIfAlertIsPresentOrAddIt(state, action) {
+
+    const index = state.alertsList.findIndex(alert => alert.alertName === action.payload.labels.alertname);
+
+    if (index < 0) {
+
+        return {
+            ...state,
+            alertsList: [
+                ...state.alertsList,
+                {
+                    id: nextTodoId(state.alertsList),
+                    alertName: action.payload.alertName,
+                    alertPriority: action.payload.alertPriority,
+                    resolved: false,
+                    messageState: action.payload.messageState
+
+
+                }
+            ]
+        }
+
+    } else {
+        return {
+            ...state,
+            alertsList: [
+                ...state.alertsList]
+        }
+    }
+}
+
 // Use the initialState as a default value
 export default function alertsReducer(state = initialState, action) {
     // The reducer normally looks at the action type field to decide what happens
+
+
     switch (action.type) {
         // 1) React -> Pod Server
         // React send the "FIRE_ALERT" To web-socket pod
@@ -43,14 +76,14 @@ export default function alertsReducer(state = initialState, action) {
             console.log(action.payload)
             const index = state.alertsList.findIndex(alert => alert.alertName === action.payload.labels.alertname);
             console.log(index);
-           
+
             let tmpAlertList = [...state.alertsList]
-            tmpAlertList[index].messageState="ALERT_RECEIVED_IN_WS_SERVER"
+            tmpAlertList[index].messageState = "ALERT_RECEIVED_IN_WS_SERVER"
             return {
                 ...state,
                 alertsList: [
                     ...tmpAlertList,
-                   
+
                 ]
             }
         };
@@ -59,17 +92,21 @@ export default function alertsReducer(state = initialState, action) {
         // 
         // Alert sent  to Alert Manager
         case 'alert/ALERT_SENT_TO_ALERTMANAGER': {
+
+            state = checkIfAlertIsPresentOrAddIt(state, action)
+
+
             console.log(action.payload)
             const index = state.alertsList.findIndex(alert => alert.alertName === action.payload.labels.alertname);
             console.log(index);
-           
+
             let tmpAlertList = [...state.alertsList]
-            tmpAlertList[index].messageState="ALERT_SENT_TO_ALERTMANAGER"
+            tmpAlertList[index].messageState = "ALERT_SENT_TO_ALERTMANAGER"
             return {
                 ...state,
                 alertsList: [
                     ...tmpAlertList,
-                   
+
                 ]
             }
         };
@@ -77,17 +114,20 @@ export default function alertsReducer(state = initialState, action) {
         //WAITING_FOR_ICINGA_CONFIRMATION
 
         case 'alert/WAITING_FOR_ICINGA_CONFIRMATION': {
+
+            state = checkIfAlertIsPresentOrAddIt(state, action)
+
             console.log(action.payload)
             const index = state.alertsList.findIndex(alert => alert.alertName === action.payload.labels.alertname);
             console.log(index);
-           
+
             let tmpAlertList = [...state.alertsList]
-            tmpAlertList[index].messageState="WAITING_FOR_ICINGA_CONFIRMATION"
+            tmpAlertList[index].messageState = "WAITING_FOR_ICINGA_CONFIRMATION"
             return {
                 ...state,
                 alertsList: [
                     ...tmpAlertList,
-                   
+
                 ]
             }
         };
@@ -95,25 +135,21 @@ export default function alertsReducer(state = initialState, action) {
         // 4) Pod Server -> React 
         // 
         // Alert sent  to Icinga
-        case 'alert/alert_firing_on_icinga': {
+        case 'alert/ALERT_FIRING_ON_ICINGA': {
 
-          
+            state = checkIfAlertIsPresentOrAddIt(state, action)
 
+            console.log(action.payload)
+            const index = state.alertsList.findIndex(alert => alert.alertName === action.payload.labels.alertname);
+            console.log(index);
 
-
+            let tmpAlertList = [...state.alertsList]
+            tmpAlertList[index].messageState = "ALERT_FIRING_ON_ICINGA"
             return {
                 ...state,
                 alertsList: [
-                    ...state.alertsList,
-                    {
-                        id: nextTodoId(state.alertsList),
-                        alertName: action.payload.alertName,
-                        alertPriority: action.payload.alertPriority,
-                        resolved: false,
-                        messageState: "alert_firing_on_icinga"
+                    ...tmpAlertList,
 
-
-                    }
                 ]
             }
         };
@@ -121,14 +157,47 @@ export default function alertsReducer(state = initialState, action) {
 
 
 
+        case 'alert/WAITING_FOR_ICINGA_RESOLVED_CONFIRMATION': {
 
-        case 'alert/resolved': {
+            state = checkIfAlertIsPresentOrAddIt(state, action)
+
+            console.log(action.payload)
+            const index = state.alertsList.findIndex(alert => alert.alertName === action.payload.labels.alertname);
+            console.log(index);
+
+            let tmpAlertList = [...state.alertsList]
+            tmpAlertList[index].messageState = "WAITING_FOR_ICINGA_RESOLVED_CONFIRMATION"
             return {
+                ...state,
+                alertsList: [
+                    ...tmpAlertList,
 
+                ]
+            }
+        };
+
+        case 'alert/ALERT_RESOLVED_IN_ICINGA': {
+            console.log("IN REDUCER")
+            console.log(action.payload)
+            const index = state.alertsList.findIndex(alert => alert.alertName === action.payload.labels.alertname);
+            let tmpAlertList = [...state.alertsList]
+            tmpAlertList[index].messageState = "ALERT_RESOLVED_IN_ICINGA"
+
+            return {
+                ...state,
+                alertsList: [
+                    ...tmpAlertList,
+
+                ]
+            }
+
+            /*
+            return {
+                ...state,
                 alertsList: [
                     ...state.alertsList.filter(alert => alert.id !== action.payload.alertId)
                 ]
-            }
+            }*/
 
 
         };

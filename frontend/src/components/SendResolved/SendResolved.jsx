@@ -10,7 +10,8 @@ class SendResolved extends Component {
         this.state = {
             client: props.websocket,
             alertId: props.alertId,
-            alertName: props.alertName
+            alertName: props.alertName,
+            alertPriority: props.alertPriority
 
         }
 
@@ -29,7 +30,7 @@ class SendResolved extends Component {
 
 
         var msg = this.resolveAlertJson("resolved", this.state.alertName,
-            "warning","summary","message","description");
+        this.state.alertPriority,"summary","message","description");
 
         console.log(msg)
         this.state.client.send(msg);

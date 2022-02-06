@@ -1,0 +1,22 @@
+Chat App v0.01
+127.0.0.1:8080
+[
+  {
+    "status": "firing",
+    "labels": {
+      "alertname": "TestAlert",
+      "service": "Service - TestAlert",
+      "severity": "warning"
+    },
+    "annotations": {
+      "summary": "summary",
+      "message": "message",
+      "description": "description"
+    },
+    "generatorURL": "https://bjlovers.bj/TestAlert",
+    "startsAt": "2022-02-03T06:27:51.99487548+01:00",
+    "endsAt": "2022-02-03T10:47:51.99487548+01:00"
+  }
+][{Status:firing Labels:{Alertname:TestAlert Service:Service - TestAlert Severity:warning} Annotations:{Summary:summary Message:message Description:description} GeneratorURL:https://bjlovers.bj/TestAlert StartsAt:2022-02-03 06:27:51.99487548 +0100 CET m=-7796.043770675 EndsAt:2022-02-03 10:47:51.99487548 +0100 CET m=+7803.956229325}]response Status: 200 OK
+response Headers: map[Access-Control-Allow-Headers:[Accept, Authorization, Content-Type, Origin] Access-Control-Allow-Methods:[GET, POST, DELETE, OPTIONS] Access-Control-Allow-Origin:[*] Access-Control-Expose-Headers:[Date] Cache-Control:[no-cache, no-store, must-revalidate] Content-Length:[20] Content-Type:[application/json] Date:[Thu, 03 Feb 2022 07:37:52 GMT]]
+response Body: {"status":"success"}

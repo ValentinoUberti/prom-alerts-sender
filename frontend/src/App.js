@@ -52,10 +52,27 @@ class App extends Component {
             console.log("WAITING_FOR_ICINGA_CONFIRMATION")
             store.dispatch({ type: 'alert/WAITING_FOR_ICINGA_CONFIRMATION', payload: event.data })
             break;
+
+          case 'ALERT_FIRING_ON_ICINGA':
+            console.log("ALERT_FIRING_ON_ICINGA")
+            store.dispatch({ type: 'alert/ALERT_FIRING_ON_ICINGA', payload: event.data })
+            break;
+
+          case 'WAITING_FOR_ICINGA_RESOLVED_CONFIRMATION':
+            console.log("WAITING_FOR_ICINGA_RESOLVED_CONFIRMATION")
+            store.dispatch({ type: 'alert/WAITING_FOR_ICINGA_RESOLVED_CONFIRMATION', payload: event.data })
+            break;
+
+            case 'ALERT_RESOLVED_IN_ICINGA':
+              console.log("ALERT_RESOLVED_IN_ICINGA")
+              store.dispatch({ type: 'alert/ALERT_RESOLVED_IN_ICINGA', payload: event.data })
+              break;
+
+
           default:
             console.log("MESSAGE NOT UNDERSTOOD")
 
-        } // switch
+        } // switch ALERT_RESOLVED_IN_ICINGA
 
 
       } // try

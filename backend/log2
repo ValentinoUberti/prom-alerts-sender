@@ -1,0 +1,665 @@
+Chat App v0.01
+127.0.0.1:8080
+2022/02/03 08:43:27 FIRE_ALERT
+[
+  {
+    "status": "firing",
+    "labels": {
+      "alertname": "TestAlert",
+      "service": "Service - TestAlert",
+      "severity": "warning"
+    },
+    "annotations": {
+      "summary": "summary",
+      "message": "message",
+      "description": "description"
+    },
+    "generatorURL": "https://bjlovers.bj/TestAlert",
+    "startsAt": "2022-02-03T06:33:27.467667729+01:00",
+    "endsAt": "2022-02-03T10:53:27.467667729+01:00"
+  }
+][{Status:firing Labels:{Alertname:TestAlert Service:Service - TestAlert Severity:warning} Annotations:{Summary:summary Message:message Description:description} GeneratorURL:https://bjlovers.bj/TestAlert StartsAt:2022-02-03 06:33:27.467667729 +0100 CET m=-7795.621058154 EndsAt:2022-02-03 10:53:27.467667729 +0100 CET m=+7804.378941846}]2022/02/03 08:43:27 <nil>
+2022/02/03 08:43:27 Channel message sent to websocket client
+response Status: 200 OK
+response Headers: map[Access-Control-Allow-Headers:[Accept, Authorization, Content-Type, Origin] Access-Control-Allow-Methods:[GET, POST, DELETE, OPTIONS] Access-Control-Allow-Origin:[*] Access-Control-Expose-Headers:[Date] Cache-Control:[no-cache, no-store, must-revalidate] Content-Length:[20] Content-Type:[application/json] Date:[Thu, 03 Feb 2022 07:43:27 GMT]]
+response Body: {"status":"success"}
+2022/02/03 08:43:27 200
+2022/02/03 08:43:27 <nil>
+2022/02/03 08:43:27 Channel message sent to websocket client
+2022/02/03 08:43:28 --------------------------------------------------------------------------------
+2022/02/03 08:43:28 REQUEST
+2022/02/03 08:43:28 --------------------------------------------------------------------------------
+2022/02/03 08:43:28 Method: GET
+2022/02/03 08:43:28 URL: https://icinga2.lab.seeweb:5665/v1/objects/services
+2022/02/03 08:43:28 Header: map[Accept:[application/json] Authorization:[Basic cm9vdDo1N2QxMDAyZDgxYjY5MTk3] Content-Type:[application/json]]
+2022/02/03 08:43:28 Form: map[]
+2022/02/03 08:43:28 Payload:
+2022/02/03 08:43:28 {
+	"filter": "service.problem==1 \u0026\u0026 match(\"api.ocp2.lab.seeweb\",service.host_name)"
+}
+2022/02/03 08:43:28 --------------------------------------------------------------------------------
+2022/02/03 08:43:28 RESPONSE
+2022/02/03 08:43:28 --------------------------------------------------------------------------------
+2022/02/03 08:43:28 Status:  200
+2022/02/03 08:43:28 Header:
+2022/02/03 08:43:28 {
+	"Content-Length": [
+		"16726"
+	],
+	"Content-Type": [
+		"application/json"
+	],
+	"Server": [
+		"Icinga/2.13.1-1"
+	]
+}
+2022/02/03 08:43:28 Body:
+2022/02/03 08:43:28 {
+	"results": [
+		{
+			"attrs": {
+				"__name": "api.ocp2.lab.seeweb!Watchdog_c56994bab771a14d",
+				"acknowledgement": 0,
+				"acknowledgement_expiry": 0,
+				"acknowledgement_last_change": 0,
+				"action_url": "https://prometheus-k8s-openshift-monitoring.apps.ocp2.lab.seeweb/graph?g0.expr=vector%281%29\u0026g0.tab=1",
+				"active": true,
+				"check_attempt": 1,
+				"check_command": "dummy",
+				"check_interval": 43200,
+				"check_period": "",
+				"check_timeout": null,
+				"command_endpoint": "",
+				"display_name": "Watchdog",
+				"downtime_depth": 0,
+				"enable_active_checks": false,
+				"enable_event_handler": true,
+				"enable_flapping": false,
+				"enable_notifications": true,
+				"enable_passive_checks": true,
+				"enable_perfdata": true,
+				"event_command": "",
+				"executions": null,
+				"flapping": false,
+				"flapping_current": 0,
+				"flapping_ignore_states": null,
+				"flapping_last_change": 0,
+				"flapping_threshold": 0,
+				"flapping_threshold_high": 30,
+				"flapping_threshold_low": 25,
+				"force_next_check": false,
+				"force_next_notification": false,
+				"groups": [],
+				"ha_mode": 0,
+				"handled": false,
+				"host_name": "api.ocp2.lab.seeweb",
+				"icon_image": "",
+				"icon_image_alt": "",
+				"last_check": 1643874130.643076,
+				"last_check_result": {
+					"active": false,
+					"check_source": "icinga2.lab.seeweb",
+					"command": null,
+					"execution_end": 1643874130.643076,
+					"execution_start": 1643874130.643076,
+					"exit_status": 0,
+					"output": "",
+					"performance_data": null,
+					"schedule_end": 1643874130.643076,
+					"schedule_start": 1643874130.643076,
+					"scheduling_source": "icinga2.lab.seeweb",
+					"state": 3,
+					"ttl": 0,
+					"type": "CheckResult",
+					"vars_after": {
+						"attempt": 1,
+						"reachable": true,
+						"state": 3,
+						"state_type": 1
+					},
+					"vars_before": {
+						"attempt": 1,
+						"reachable": true,
+						"state": 3,
+						"state_type": 1
+					}
+				},
+				"last_hard_state": 3,
+				"last_hard_state_change": 1643098893.506172,
+				"last_reachable": true,
+				"last_state": 3,
+				"last_state_change": 1643098798.364104,
+				"last_state_critical": 0,
+				"last_state_ok": 0,
+				"last_state_type": 1,
+				"last_state_unknown": 1643874130.643076,
+				"last_state_unreachable": 0,
+				"last_state_warning": 0,
+				"max_check_attempts": 1,
+				"name": "Watchdog_c56994bab771a14d",
+				"next_check": 1643917330.643096,
+				"next_update": 1643960530.643076,
+				"notes": "This is an alert meant to ensure that the entire alerting pipeline is functional.\nThis alert is always firing, therefore it should always be firing in Alertmanager\nand always fire against a receiver. There are integrations with various notification\nmechanisms that send a notification when this alert is not firing. For example the\n\"DeadMansSnitch\" integration in PagerDuty.\n",
+				"notes_url": "",
+				"original_attributes": {
+					"action_url": "https://prometheus-k8s-openshift-monitoring.apps.ocp2.lab.seeweb/graph?g0.expr=vector%281%29\u0026g0.tab=1",
+					"check_command": "dummy",
+					"check_interval": 43200,
+					"display_name": "Watchdog",
+					"enable_active_checks": false,
+					"host_name": "api.ocp2.lab.seeweb",
+					"max_check_attempts": 1,
+					"notes": "This is an alert meant to ensure that the entire alerting pipeline is functional.\nThis alert is always firing, therefore it should always be firing in Alertmanager\nand always fire against a receiver. There are integrations with various notification\nmechanisms that send a notification when this alert is not firing. For example the\n\"DeadMansSnitch\" integration in PagerDuty.\n",
+					"notes_url": "",
+					"retry_interval": 43200,
+					"vars": {
+						"annotation_description": "This is an alert meant to ensure that the entire alerting pipeline is functional.\nThis alert is always firing, therefore it should always be firing in Alertmanager\nand always fire against a receiver. There are integrations with various notification\nmechanisms that send a notification when this alert is not firing. For example the\n\"DeadMansSnitch\" integration in PagerDuty.\n",
+						"annotation_summary": "An alert that should always be firing to certify that Alertmanager is working properly.",
+						"bridge_uuid": "9ec06d59-aa0c-4434-b5e2-1aeaf93cd928",
+						"keep_for": 7200000000000,
+						"label_alertname": "Watchdog",
+						"label_namespace": "openshift-monitoring",
+						"label_prometheus": "openshift-monitoring/k8s",
+						"label_severity": "none"
+					}
+				},
+				"package": "_api",
+				"paused": false,
+				"previous_state_change": 1643098798.364104,
+				"problem": true,
+				"retry_interval": 43200,
+				"severity": 2112,
+				"source_location": {
+					"first_column": 0,
+					"first_line": 1,
+					"last_column": 41,
+					"last_line": 1,
+					"path": "/var/lib/icinga2/api/packages/_api/083ba1a9-8d1a-4d51-b2b7-6048f56c8af9/conf.d/services/api.ocp2.lab.seeweb!Watchdog_c56994bab771a14d.conf"
+				},
+				"state": 3,
+				"state_type": 1,
+				"templates": [
+					"Watchdog_c56994bab771a14d",
+					"generic-service"
+				],
+				"type": "Service",
+				"vars": {
+					"annotation_description": "This is an alert meant to ensure that the entire alerting pipeline is functional.\nThis alert is always firing, therefore it should always be firing in Alertmanager\nand always fire against a receiver. There are integrations with various notification\nmechanisms that send a notification when this alert is not firing. For example the\n\"DeadMansSnitch\" integration in PagerDuty.\n",
+					"annotation_summary": "An alert that should always be firing to certify that Alertmanager is working properly.",
+					"bridge_uuid": "9ec06d59-aa0c-4434-b5e2-1aeaf93cd928",
+					"keep_for": 7200000000000,
+					"label_alertname": "Watchdog",
+					"label_namespace": "openshift-monitoring",
+					"label_prometheus": "openshift-monitoring/k8s",
+					"label_severity": "none"
+				},
+				"version": 1643874130.640205,
+				"volatile": false,
+				"zone": "icinga2.lab.seeweb"
+			},
+			"joins": {},
+			"meta": {},
+			"name": "api.ocp2.lab.seeweb!Watchdog_c56994bab771a14d",
+			"type": "Service"
+		},
+		{
+			"attrs": {
+				"__name": "api.ocp2.lab.seeweb!CoreDNSPanicking_eec15d6d16d9d3e3",
+				"acknowledgement": 0,
+				"acknowledgement_expiry": 0,
+				"acknowledgement_last_change": 0,
+				"action_url": "",
+				"active": true,
+				"check_attempt": 1,
+				"check_command": "dummy",
+				"check_interval": 43200,
+				"check_period": "",
+				"check_timeout": null,
+				"command_endpoint": "",
+				"display_name": "CoreDNSPanicking",
+				"downtime_depth": 0,
+				"enable_active_checks": false,
+				"enable_event_handler": true,
+				"enable_flapping": false,
+				"enable_notifications": true,
+				"enable_passive_checks": true,
+				"enable_perfdata": true,
+				"event_command": "",
+				"executions": null,
+				"flapping": false,
+				"flapping_current": 5.800000000000001,
+				"flapping_ignore_states": null,
+				"flapping_last_change": 0,
+				"flapping_threshold": 0,
+				"flapping_threshold_high": 30,
+				"flapping_threshold_low": 25,
+				"force_next_check": false,
+				"force_next_notification": false,
+				"groups": [],
+				"ha_mode": 0,
+				"handled": false,
+				"host_name": "api.ocp2.lab.seeweb",
+				"icon_image": "",
+				"icon_image_alt": "",
+				"last_check": 1643101904.742025,
+				"last_check_result": {
+					"active": false,
+					"check_source": "icinga2.lab.seeweb",
+					"command": null,
+					"execution_end": 1643101904.742025,
+					"execution_start": 1643101904.742025,
+					"exit_status": 0,
+					"output": "My special message",
+					"performance_data": null,
+					"schedule_end": 1643101904.742025,
+					"schedule_start": 1643101904.742025,
+					"scheduling_source": "icinga2.lab.seeweb",
+					"state": 2,
+					"ttl": 0,
+					"type": "CheckResult",
+					"vars_after": {
+						"attempt": 1,
+						"reachable": true,
+						"state": 2,
+						"state_type": 1
+					},
+					"vars_before": {
+						"attempt": 1,
+						"reachable": true,
+						"state": 2,
+						"state_type": 1
+					}
+				},
+				"last_hard_state": 2,
+				"last_hard_state_change": 1643101784.747594,
+				"last_reachable": true,
+				"last_state": 2,
+				"last_state_change": 1643101784.747594,
+				"last_state_critical": 1643101904.742025,
+				"last_state_ok": 0,
+				"last_state_type": 1,
+				"last_state_unknown": 0,
+				"last_state_unreachable": 0,
+				"last_state_warning": 0,
+				"max_check_attempts": 1,
+				"name": "CoreDNSPanicking_eec15d6d16d9d3e3",
+				"next_check": 1643910506.504956,
+				"next_update": 1643188304.742025,
+				"notes": "My special description",
+				"notes_url": "",
+				"original_attributes": {
+					"action_url": "",
+					"check_command": "dummy",
+					"check_interval": 43200,
+					"display_name": "CoreDNSPanicking",
+					"enable_active_checks": false,
+					"host_name": "api.ocp2.lab.seeweb",
+					"max_check_attempts": 1,
+					"notes": "My special description",
+					"notes_url": "",
+					"retry_interval": 43200,
+					"vars": {
+						"annotation_description": "My special description",
+						"annotation_message": "My special message",
+						"annotation_summary": "My special summary",
+						"bridge_uuid": "9ec06d59-aa0c-4434-b5e2-1aeaf93cd928",
+						"keep_for": 7200000000000,
+						"label_alertname": "CoreDNSPanicking",
+						"label_instance": "my-test-service.ocp2.lab.seeweb",
+						"label_namespace": "openshift-monitoring",
+						"label_prometheus": "openshift-monitoring/k8s",
+						"label_service": "my-test-service",
+						"label_severity": "critical"
+					}
+				},
+				"package": "_api",
+				"paused": false,
+				"previous_state_change": 1643101784.747594,
+				"problem": true,
+				"retry_interval": 43200,
+				"severity": 2176,
+				"source_location": {
+					"first_column": 0,
+					"first_line": 1,
+					"last_column": 49,
+					"last_line": 1,
+					"path": "/var/lib/icinga2/api/packages/_api/083ba1a9-8d1a-4d51-b2b7-6048f56c8af9/conf.d/services/api.ocp2.lab.seeweb!CoreDNSPanicking_eec15d6d16d9d3e3.conf"
+				},
+				"state": 2,
+				"state_type": 1,
+				"templates": [
+					"CoreDNSPanicking_eec15d6d16d9d3e3",
+					"generic-service"
+				],
+				"type": "Service",
+				"vars": {
+					"annotation_description": "My special description",
+					"annotation_message": "My special message",
+					"annotation_summary": "My special summary",
+					"bridge_uuid": "9ec06d59-aa0c-4434-b5e2-1aeaf93cd928",
+					"keep_for": 7200000000000,
+					"label_alertname": "CoreDNSPanicking",
+					"label_instance": "my-test-service.ocp2.lab.seeweb",
+					"label_namespace": "openshift-monitoring",
+					"label_prometheus": "openshift-monitoring/k8s",
+					"label_service": "my-test-service",
+					"label_severity": "critical"
+				},
+				"version": 1643101904.740534,
+				"volatile": false,
+				"zone": "icinga2.lab.seeweb"
+			},
+			"joins": {},
+			"meta": {},
+			"name": "api.ocp2.lab.seeweb!CoreDNSPanicking_eec15d6d16d9d3e3",
+			"type": "Service"
+		},
+		{
+			"attrs": {
+				"__name": "api.ocp2.lab.seeweb!UpdateAvailable_e0d93f50e4009ed2",
+				"acknowledgement": 0,
+				"acknowledgement_expiry": 0,
+				"acknowledgement_last_change": 0,
+				"action_url": "https://prometheus-k8s-openshift-monitoring.apps.ocp2.lab.seeweb/graph?g0.expr=sum+by%28channel%2C+upstream%29+%28cluster_version_available_updates%29+%3E+0\u0026g0.tab=1",
+				"active": true,
+				"check_attempt": 1,
+				"check_command": "dummy",
+				"check_interval": 43200,
+				"check_period": "",
+				"check_timeout": null,
+				"command_endpoint": "",
+				"display_name": "UpdateAvailable",
+				"downtime_depth": 0,
+				"enable_active_checks": false,
+				"enable_event_handler": true,
+				"enable_flapping": false,
+				"enable_notifications": true,
+				"enable_passive_checks": true,
+				"enable_perfdata": true,
+				"event_command": "",
+				"executions": null,
+				"flapping": false,
+				"flapping_current": 0,
+				"flapping_ignore_states": null,
+				"flapping_last_change": 0,
+				"flapping_threshold": 0,
+				"flapping_threshold_high": 30,
+				"flapping_threshold_low": 25,
+				"force_next_check": false,
+				"force_next_notification": false,
+				"groups": [],
+				"ha_mode": 0,
+				"handled": false,
+				"host_name": "api.ocp2.lab.seeweb",
+				"icon_image": "",
+				"icon_image_alt": "",
+				"last_check": 1643874049.318562,
+				"last_check_result": {
+					"active": false,
+					"check_source": "icinga2.lab.seeweb",
+					"command": null,
+					"execution_end": 1643874049.318562,
+					"execution_start": 1643874049.318562,
+					"exit_status": 0,
+					"output": "",
+					"performance_data": null,
+					"schedule_end": 1643874049.318562,
+					"schedule_start": 1643874049.318562,
+					"scheduling_source": "icinga2.lab.seeweb",
+					"state": 3,
+					"ttl": 0,
+					"type": "CheckResult",
+					"vars_after": {
+						"attempt": 1,
+						"reachable": true,
+						"state": 3,
+						"state_type": 1
+					},
+					"vars_before": {
+						"attempt": 1,
+						"reachable": true,
+						"state": 3,
+						"state_type": 1
+					}
+				},
+				"last_hard_state": 3,
+				"last_hard_state_change": 1643656456.525969,
+				"last_reachable": true,
+				"last_state": 3,
+				"last_state_change": 1643098798.364104,
+				"last_state_critical": 0,
+				"last_state_ok": 0,
+				"last_state_type": 1,
+				"last_state_unknown": 1643874049.318562,
+				"last_state_unreachable": 0,
+				"last_state_warning": 0,
+				"max_check_attempts": 1,
+				"name": "UpdateAvailable_e0d93f50e4009ed2",
+				"next_check": 1643917249.318583,
+				"next_update": 1643960449.318562,
+				"notes": "For more information refer to 'oc adm upgrade' or https://console-openshift-console.apps.ocp2.lab.seeweb/settings/cluster/.",
+				"notes_url": "",
+				"original_attributes": {
+					"action_url": "https://prometheus-k8s-openshift-monitoring.apps.ocp2.lab.seeweb/graph?g0.expr=sum+by%28channel%2C+upstream%29+%28cluster_version_available_updates%29+%3E+0\u0026g0.tab=1",
+					"check_command": "dummy",
+					"check_interval": 43200,
+					"display_name": "UpdateAvailable",
+					"enable_active_checks": false,
+					"host_name": "api.ocp2.lab.seeweb",
+					"max_check_attempts": 1,
+					"notes": "For more information refer to 'oc adm upgrade' or https://console-openshift-console.apps.ocp2.lab.seeweb/settings/cluster/.",
+					"notes_url": "",
+					"retry_interval": 43200,
+					"vars": {
+						"annotation_description": "For more information refer to 'oc adm upgrade' or https://console-openshift-console.apps.ocp2.lab.seeweb/settings/cluster/.",
+						"annotation_summary": "Your upstream update recommendation service recommends you update your cluster.",
+						"bridge_uuid": "9ec06d59-aa0c-4434-b5e2-1aeaf93cd928",
+						"keep_for": 7200000000000,
+						"label_alertname": "UpdateAvailable",
+						"label_channel": "stable-4.9",
+						"label_prometheus": "openshift-monitoring/k8s",
+						"label_severity": "info",
+						"label_upstream": "\u003cdefault\u003e"
+					}
+				},
+				"package": "_api",
+				"paused": false,
+				"previous_state_change": 1643098798.364104,
+				"problem": true,
+				"retry_interval": 43200,
+				"severity": 2112,
+				"source_location": {
+					"first_column": 0,
+					"first_line": 1,
+					"last_column": 48,
+					"last_line": 1,
+					"path": "/var/lib/icinga2/api/packages/_api/083ba1a9-8d1a-4d51-b2b7-6048f56c8af9/conf.d/services/api.ocp2.lab.seeweb!UpdateAvailable_e0d93f50e4009ed2.conf"
+				},
+				"state": 3,
+				"state_type": 1,
+				"templates": [
+					"UpdateAvailable_e0d93f50e4009ed2",
+					"generic-service"
+				],
+				"type": "Service",
+				"vars": {
+					"annotation_description": "For more information refer to 'oc adm upgrade' or https://console-openshift-console.apps.ocp2.lab.seeweb/settings/cluster/.",
+					"annotation_summary": "Your upstream update recommendation service recommends you update your cluster.",
+					"bridge_uuid": "9ec06d59-aa0c-4434-b5e2-1aeaf93cd928",
+					"keep_for": 7200000000000,
+					"label_alertname": "UpdateAvailable",
+					"label_channel": "stable-4.9",
+					"label_prometheus": "openshift-monitoring/k8s",
+					"label_severity": "info",
+					"label_upstream": "\u003cdefault\u003e"
+				},
+				"version": 1643874049.316547,
+				"volatile": false,
+				"zone": "icinga2.lab.seeweb"
+			},
+			"joins": {},
+			"meta": {},
+			"name": "api.ocp2.lab.seeweb!UpdateAvailable_e0d93f50e4009ed2",
+			"type": "Service"
+		},
+		{
+			"attrs": {
+				"__name": "api.ocp2.lab.seeweb!TestAlert_7e5493bff933b690",
+				"acknowledgement": 0,
+				"acknowledgement_expiry": 0,
+				"acknowledgement_last_change": 0,
+				"action_url": "https://bjlovers.bj/TestAlert",
+				"active": true,
+				"check_attempt": 1,
+				"check_command": "dummy",
+				"check_interval": 43200,
+				"check_period": "",
+				"check_timeout": null,
+				"command_endpoint": "",
+				"display_name": "TestAlert",
+				"downtime_depth": 0,
+				"enable_active_checks": false,
+				"enable_event_handler": true,
+				"enable_flapping": false,
+				"enable_notifications": true,
+				"enable_passive_checks": true,
+				"enable_perfdata": true,
+				"event_command": "",
+				"executions": null,
+				"flapping": false,
+				"flapping_current": 4.9,
+				"flapping_ignore_states": null,
+				"flapping_last_change": 0,
+				"flapping_threshold": 0,
+				"flapping_threshold_high": 30,
+				"flapping_threshold_low": 25,
+				"force_next_check": false,
+				"force_next_notification": false,
+				"groups": [],
+				"ha_mode": 0,
+				"handled": false,
+				"host_name": "api.ocp2.lab.seeweb",
+				"icon_image": "",
+				"icon_image_alt": "",
+				"last_check": 1643874124.016401,
+				"last_check_result": {
+					"active": false,
+					"check_source": "icinga2.lab.seeweb",
+					"command": null,
+					"execution_end": 1643874124.016401,
+					"execution_start": 1643874124.016401,
+					"exit_status": 0,
+					"output": "message",
+					"performance_data": null,
+					"schedule_end": 1643874124.016401,
+					"schedule_start": 1643874124.016401,
+					"scheduling_source": "icinga2.lab.seeweb",
+					"state": 1,
+					"ttl": 0,
+					"type": "CheckResult",
+					"vars_after": {
+						"attempt": 1,
+						"reachable": true,
+						"state": 1,
+						"state_type": 1
+					},
+					"vars_before": {
+						"attempt": 1,
+						"reachable": true,
+						"state": 1,
+						"state_type": 1
+					}
+				},
+				"last_hard_state": 1,
+				"last_hard_state_change": 1643872924.006904,
+				"last_reachable": true,
+				"last_state": 1,
+				"last_state_change": 1643872924.006904,
+				"last_state_critical": 0,
+				"last_state_ok": 0,
+				"last_state_type": 1,
+				"last_state_unknown": 0,
+				"last_state_unreachable": 0,
+				"last_state_warning": 1643874124.016401,
+				"max_check_attempts": 1,
+				"name": "TestAlert_7e5493bff933b690",
+				"next_check": 1643917324.016428,
+				"next_update": 1643960524.016401,
+				"notes": "description",
+				"notes_url": "",
+				"original_attributes": {
+					"action_url": "https://bjlovers.bj/TestAlert",
+					"check_command": "dummy",
+					"check_interval": 43200,
+					"display_name": "TestAlert",
+					"enable_active_checks": false,
+					"host_name": "api.ocp2.lab.seeweb",
+					"max_check_attempts": 1,
+					"notes": "description",
+					"notes_url": "",
+					"retry_interval": 43200,
+					"vars": {
+						"annotation_description": "description",
+						"annotation_message": "message",
+						"annotation_summary": "summary",
+						"bridge_uuid": "9ec06d59-aa0c-4434-b5e2-1aeaf93cd928",
+						"keep_for": 7200000000000,
+						"label_alertname": "TestAlert",
+						"label_service": "Service - TestAlert",
+						"label_severity": "warning"
+					}
+				},
+				"package": "_api",
+				"paused": false,
+				"previous_state_change": 1643872924.006904,
+				"problem": true,
+				"retry_interval": 43200,
+				"severity": 2080,
+				"source_location": {
+					"first_column": 0,
+					"first_line": 1,
+					"last_column": 42,
+					"last_line": 1,
+					"path": "/var/lib/icinga2/api/packages/_api/083ba1a9-8d1a-4d51-b2b7-6048f56c8af9/conf.d/services/api.ocp2.lab.seeweb!TestAlert_7e5493bff933b690.conf"
+				},
+				"state": 1,
+				"state_type": 1,
+				"templates": [
+					"TestAlert_7e5493bff933b690",
+					"generic-service"
+				],
+				"type": "Service",
+				"vars": {
+					"annotation_description": "description",
+					"annotation_message": "message",
+					"annotation_summary": "summary",
+					"bridge_uuid": "9ec06d59-aa0c-4434-b5e2-1aeaf93cd928",
+					"keep_for": 7200000000000,
+					"label_alertname": "TestAlert",
+					"label_service": "Service - TestAlert",
+					"label_severity": "warning"
+				},
+				"version": 1643874124.014648,
+				"volatile": false,
+				"zone": "icinga2.lab.seeweb"
+			},
+			"joins": {},
+			"meta": {},
+			"name": "api.ocp2.lab.seeweb!TestAlert_7e5493bff933b690",
+			"type": "Service"
+		}
+	]
+}
+2022/02/03 08:43:28 +v
+%!(EXTRA []icinga2.Service=[{Watchdog_c56994bab771a14d Watchdog api.ocp2.lab.seeweb dummy false This is an alert meant to ensure that the entire alerting pipeline is functional.
+This alert is always firing, therefore it should always be firing in Alertmanager
+and always fire against a receiver. There are integrations with various notification
+mechanisms that send a notification when this alert is not firing. For example the
+"DeadMansSnitch" integration in PagerDuty.
+  https://prometheus-k8s-openshift-monitoring.apps.ocp2.lab.seeweb/graph?g0.expr=vector%281%29&g0.tab=1 map[annotation_description:This is an alert meant to ensure that the entire alerting pipeline is functional.
+This alert is always firing, therefore it should always be firing in Alertmanager
+and always fire against a receiver. There are integrations with various notification
+mechanisms that send a notification when this alert is not firing. For example the
+"DeadMansSnitch" integration in PagerDuty.
+ annotation_summary:An alert that should always be firing to certify that Alertmanager is working properly. bridge_uuid:9ec06d59-aa0c-4434-b5e2-1aeaf93cd928 keep_for:7.2e+12 label_alertname:Watchdog label_namespace:openshift-monitoring label_prometheus:openshift-monitoring/k8s label_severity:none] icinga2.lab.seeweb 43200 43200 1  3 1.643098798364104e+09} {CoreDNSPanicking_eec15d6d16d9d3e3 CoreDNSPanicking api.ocp2.lab.seeweb dummy false My special description   map[annotation_description:My special description annotation_message:My special message annotation_summary:My special summary bridge_uuid:9ec06d59-aa0c-4434-b5e2-1aeaf93cd928 keep_for:7.2e+12 label_alertname:CoreDNSPanicking label_instance:my-test-service.ocp2.lab.seeweb label_namespace:openshift-monitoring label_prometheus:openshift-monitoring/k8s label_service:my-test-service label_severity:critical] icinga2.lab.seeweb 43200 43200 1  2 1.643101784747594e+09} {UpdateAvailable_e0d93f50e4009ed2 UpdateAvailable api.ocp2.lab.seeweb dummy false For more information refer to 'oc adm upgrade' or https://console-openshift-console.apps.ocp2.lab.seeweb/settings/cluster/.  https://prometheus-k8s-openshift-monitoring.apps.ocp2.lab.seeweb/graph?g0.expr=sum+by%28channel%2C+upstream%29+%28cluster_version_available_updates%29+%3E+0&g0.tab=1 map[annotation_description:For more information refer to 'oc adm upgrade' or https://console-openshift-console.apps.ocp2.lab.seeweb/settings/cluster/. annotation_summary:Your upstream update recommendation service recommends you update your cluster. bridge_uuid:9ec06d59-aa0c-4434-b5e2-1aeaf93cd928 keep_for:7.2e+12 label_alertname:UpdateAvailable label_channel:stable-4.9 label_prometheus:openshift-monitoring/k8s label_severity:info label_upstream:<default>] icinga2.lab.seeweb 43200 43200 1  3 1.643098798364104e+09} {TestAlert_7e5493bff933b690 TestAlert api.ocp2.lab.seeweb dummy false description  https://bjlovers.bj/TestAlert map[annotation_description:description annotation_message:message annotation_summary:summary bridge_uuid:9ec06d59-aa0c-4434-b5e2-1aeaf93cd928 keep_for:7.2e+12 label_alertname:TestAlert label_service:Service - TestAlert label_severity:warning] icinga2.lab.seeweb 43200 43200 1  1 1.643872924006904e+09}])
+2022/02/03 16:57:44 websocket: close 1001 (going away)

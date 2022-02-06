@@ -52,5 +52,6 @@ func main() {
 	for _, service := range services {
 		fmt.Printf("%s <-> %s\n", service.HostName, service.DisplayName)
 	}
+	
 
 }

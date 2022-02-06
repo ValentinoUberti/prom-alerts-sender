@@ -96,10 +96,10 @@ class SendAlert extends Component {
                         onChange={this.handleChangeAlertPriority}
                         select
                     >
-                        <MenuItem value="info">Info</MenuItem>
+                       
                         <MenuItem value="warning">Warning</MenuItem>
                         <MenuItem value="critical">Critical</MenuItem>
-                        <MenuItem value="none">None</MenuItem>
+                        <MenuItem value="none">Unknow</MenuItem>
                     </TextField>
 
                     <textarea

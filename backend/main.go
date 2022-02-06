@@ -10,7 +10,10 @@ import (
 	"sync"
 	"time"
 
+	"github.com/ValentinoUberti/prom-alerts-sender/internal/icingautils"
+
 	"github.com/gorilla/websocket"
+	"github.com/vshn/go-icinga2-client/icinga2"
 )
 
 type AlertingLabel struct {
@@ -245,6 +248,73 @@ func reader(conn *websocket.Conn) {
 	}
 }
 
+type alertsStates struct {
+	Alerts      AlertingRule
+	IcingaState string
+}
+
+type AlertsFiringInIcinga struct {
+	mutex          sync.Mutex
+	firingServices []icinga2.Service
+}
+
+func (alertsFiringInIcinga *AlertsFiringInIcinga) addAlerts(firingServices []icinga2.Service) error {
+	alertsFiringInIcinga.mutex.Lock()
+	alertsFiringInIcinga.firingServices = firingServices
+	alertsFiringInIcinga.mutex.Unlock()
+	return nil
+}
+
+func (alertsFiringInIcinga AlertsFiringInIcinga) listAlerts() error {
+
+	log.Printf("+v\n", alertsFiringInIcinga.firingServices)
+	return nil
+}
+
+func checkAlertsOnIcinga(firingServices *AlertsFiringInIcinga) {
+
+	services, err := icingautils.AlertFiringChecker("api.ocp2.lab.seeweb")
+
+	if err != nil {
+		log.Println(err)
+		return
+	}
+
+	firingServices.addAlerts(services)
+	firingServices.listAlerts()
+
+}
+
+func startIcingaServicesPool(firingServices *AlertsFiringInIcinga, interval int) {
+
+	log.Println("Icinga services pool started")
+	ticker := time.NewTicker(time.Duration(interval) * time.Second)
+	for {
+		select {
+		case <-ticker.C:
+			checkAlertsOnIcinga(firingServices)
+			break
+
+		}
+	}
+
+}
+
+func checkIfAlertIsShowingInIcinga(firingServices *AlertsFiringInIcinga, interval int) {
+
+	log.Println("Icinga services pool started")
+	ticker := time.NewTicker(time.Duration(interval) * time.Second)
+	for {
+		select {
+		case <-ticker.C:
+			checkAlertsOnIcinga(firingServices)
+			break
+
+		}
+	}
+
+}
+
 // define our WebSocket endpoint
 func serveWs(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Host)
@@ -259,6 +329,13 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 	}
 	// listen indefinitely for new messages coming
 	// through on our WebSocket connection
+
+	// Start Icinga Services Pool
+
+	firingServices := AlertsFiringInIcinga{}
+	interval := 10
+
+	go startIcingaServicesPool(&firingServices, interval)
 
 	go func(socket *WsClientConnection) {
 		for {
@@ -303,20 +380,138 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 							msgWsChannel <- confirmation
 
 							// WAITING_FOR_ICINGA_CONFIRMATION
+
+							time.Sleep(4 * time.Second)
+							confirmation.Command = "WAITING_FOR_ICINGA_CONFIRMATION"
+							msgWsChannel <- confirmation
+
 							go func() {
 
 								time.Sleep(4 * time.Second)
-								confirmation.Command = "WAITING_FOR_ICINGA_CONFIRMATION"
-								msgWsChannel <- confirmation
+								confirmation.Command = "ALERT_FIRING_ON_ICINGA"
+								ticker := time.NewTicker(time.Duration(1) * time.Second)
+								for {
+									select {
+									case <-ticker.C:
+
+										for _, service := range firingServices.firingServices {
+											log.Println("HERE 2    -----")
+											service_vars := service.GetVars()
+											log.Printf("%v\n", service_vars)
+
+											if service.DisplayName == confirmation.Data.Labels.Alertname {
+												log.Println("HERE 3    -----")
+												log.Println(service.DisplayName)
+												//log.Println(confirmation.Data.Labels.Severity)
+												//log.Println(service_vars["label_severity"])
+
+												if service_vars["label_severity"] == confirmation.Data.Labels.Severity {
+													log.Println("HERE 4    -----")
+													log.Printf("State : %v", service.State)
+
+													/*
+														Service state:
+														0: OK
+														1: Warning
+														2: Critical
+														3: Unknow
+													*/
+													if (service.State == 1) || (service.State == 2) || (service.State == 3) {
+
+														log.Println("HERE 5    -----")
+
+														msgWsChannel <- confirmation
+
+														//
+														return
+
+													}
+												}
+
+											}
+
+										}
+
+									}
+								}
+
+								//
 
 							}()
+
 						}
 						// TODO send error message to REACT
 
 					}()
 
 				case "RESOLVE_ALERT":
-					log.Println("RESOLVE_ALERT")
+					log.Println("RESOLVING_ALERT")
+					confirmation := MsgWsType{}
+					confirmation.Command = "WAITING_FOR_ICINGA_RESOLVED_CONFIRMATION"
+					confirmation.Result = true
+					confirmation.Data = jsonMessage.Data
+
+					err, status := prepareAndSendAlertToIcinga(jsonMessage.Data)
+					log.Println(status)
+					if (err == nil) && status == 200 {
+
+						msgWsChannel <- confirmation
+
+						go func() {
+
+							time.Sleep(4 * time.Second)
+
+							ticker := time.NewTicker(time.Duration(1) * time.Second)
+							for {
+								select {
+								case <-ticker.C:
+
+									// If a service is not in the list, means that is resolved
+									// because services are filterd
+									// filter.Filter = fmt.Sprintf("service.problem==1 && match(\"%v\",service.host_name)", hostname)
+									found := false
+
+									for _, service := range firingServices.firingServices {
+										log.Println("RESOLVED HERE 2    -----")
+										service_vars := service.GetVars()
+										log.Printf("%v\n", service_vars)
+
+										if service.DisplayName == confirmation.Data.Labels.Alertname {
+											log.Println("RESOLVED  3    -----")
+											log.Println(service.DisplayName)
+											log.Println(confirmation.Data.Labels.Severity)
+											log.Println(service_vars["label_severity"])
+
+											if service_vars["label_severity"] == confirmation.Data.Labels.Severity {
+												log.Println("RESOLVED  HERE 4    -----")
+												log.Printf("State : %v", service.State)
+
+												found = true
+
+											}
+
+										}
+
+									} // for
+
+									if found != true {
+
+										log.Println("HERE 5    -----")
+										confirmation.Command = "ALERT_RESOLVED_IN_ICINGA"
+										msgWsChannel <- confirmation
+
+										//
+										return
+
+									}
+
+								}
+							}
+
+							//
+
+						}()
+					}
 
 				} // switch jsonMessage.Command
 
